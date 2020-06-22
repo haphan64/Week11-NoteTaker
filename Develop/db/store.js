@@ -2,15 +2,26 @@ const fs = require("fs");
 const path = require("path");
 const util = require("util");
 
+const {v1: uuidv1} = require("uuid");
+
 const readFileAsync = util.promisify(fs.readFile);
+const writeFileAsync = util.promisify(fs.writeFile);
+
+const dbpath = path.join(__dirname, "../db/db.json");
 
 class Store {
 
     read() {
 
-        return readFileAsync (path.join(__dirname, "../db/db.json"), "utf8");  
+        return readFileAsync (dbpath, "utf8");  
 
-    }
+    };
+
+    write(content) {
+
+        return writeFileAsync (dbpath, content);
+
+    };
 
     getNotes() {
 
@@ -26,11 +37,23 @@ class Store {
 
     };
 
-    addNotes() {
+    saveNotes (notes) {
 
-        this
+        return this.write(JSON.stringify(notes));
+
+    }
+
+    addNotes(note) {
+
+        return this
             .getNotes()
-            .then ((data) => {
+            .then ((notes) => {
+               
+                const newNote = { ...note, id: uuidv1()};
+
+                notes.push(newNote);                              
+                
+                return this.saveNotes(notes).then(() => newNote);
 
             });
 

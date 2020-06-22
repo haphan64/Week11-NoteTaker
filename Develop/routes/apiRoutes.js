@@ -2,9 +2,7 @@ const router = require("express").Router();
 const store = require("./../db/store");
 
 
-router.get("/notes", (req, res) => {
-
-    // console.log("READ notes")
+router.get("/notes", (req, res) => {    
 
     store.getNotes().then((notes) => {
 
@@ -14,30 +12,16 @@ router.get("/notes", (req, res) => {
 
 });
 
-router.post("/notes", (req, res) => {
+router.post("/notes", (req, res) => {  
 
-    // console.log("CREATE notes")  
+    store
+        .addNotes(req.body)
+        .then((note) => {
 
-    // store.addNotes(req.body).then(() => {
+            res.json(note);
 
-    //     res.json(note);
-
-    // });
-
-    store.getNotes().then((notes) => {
-
-        console.log("Current Item");
-        console.log(notes);
-
-        console.log("New item to add");
-        console.log (req.body);
-
-        res.end;
-
-    });
-
-
-   
+        });
+       
 });
 
 router.delete("/notes/:id", (req, res) => {
