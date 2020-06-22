@@ -59,9 +59,17 @@ class Store {
 
     };
 
-    deleteNotes() {
+    deleteNotes(noteId) {
 
+        return this
+            .getNotes()
+            .then( (notes) => {
 
+                const newList = notes.filter( (note) => note.id !== noteId);
+                
+                return this.saveNotes(newList);
+
+            });
         
     };
 

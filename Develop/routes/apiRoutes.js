@@ -4,11 +4,10 @@ const store = require("./../db/store");
 
 router.get("/notes", (req, res) => {    
 
-    store.getNotes().then((notes) => {
-
-        res.json(notes);
-
-    });
+    store
+        .getNotes()
+        .then((notes) => {res.json(notes)})
+        .catch((err) => res.status(500).json(err));
 
 });
 
@@ -16,17 +15,17 @@ router.post("/notes", (req, res) => {
 
     store
         .addNotes(req.body)
-        .then((note) => {
-
-            res.json(note);
-
-        });
+        .then((note) => {res.json(note)})
+        .catch((err) => res.status(500).json(err));
        
 });
 
 router.delete("/notes/:id", (req, res) => {
 
-    console.log("DELETE notes")
+    store
+        .deleteNotes(req.params.id)
+        .then(() => res.json({ok: true}))
+        .catch((err) => res.status(500).json(err));    
 
 });
 
