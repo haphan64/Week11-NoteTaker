@@ -1,5 +1,4 @@
-# Week11-NoteTaker
-Week 11 Homework - Note Taker
+# NoteTaker
 This is an application that can be used to write, save, and delete notes.
 
 ## User Story
